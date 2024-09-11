@@ -360,7 +360,7 @@ function lilyPad(x,y,w,s,drum){
 
   //lilypad lines
   push();
-  strokeWeight(1);
+  strokeWeight(w/300);
   stroke(50,150,50); //light green
   line(x,y-bounce*y/700,x-w/4,y-bounce*y/700+h/3);
   line(x,y-bounce*y/700,x+w/3,y-bounce*y/700+h/5);
@@ -385,7 +385,7 @@ function extra(x,y,w,s,drum){
 
   //lilypad lines
   push();
-  strokeWeight(w/100);
+  strokeWeight(w/300);
   stroke(50,150,50,150); //light green
   line(x,y-bounce*y/700,x+w/3,y-bounce*y/700+h/5);
   line(x,y-bounce*y/700,x+w/10,y-bounce*y/700+h/3);
@@ -399,7 +399,7 @@ function light() {
   push();
   drawingContext.filter = 'blur(5px)';
   noStroke();
-  c += 0.25
+  c += 0.25;
   if (c >= 200){
     c = 200; //transparncy doesn't go beyond 200
   }
