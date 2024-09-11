@@ -1,51 +1,69 @@
 
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
-
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
-  rectMode(CENTER)
 
-  coolBackground();
-  
-  let stemDrum = map(drum,0,100,15,200); //stem height dictated by drums 
+background(140,200,220)
+  textFont('Verdana'); // please use CSS safe fonts
+  rectMode(CENTER)
+  textSize(24);
+
+
+  background1();
+ 
+  let x = 500; //default x coord
+  let y = 500; //default y coord
+  let petalWidth = 100;
+  let stemDrum = map(drum,0,100,15,200); //stem height dictated by drums
   let stemBass = map(bass,0,100,10,100); //stem height dicatted by bass
+
 
   //lotus(x coord,  y coord,  petal Width,  effects petals, effects stem)
   //lilyPad(x coord, y coord, lily width, slit size);
-  
-  lilyPad(490,400,80,15,other);
-  lilyPad(950,675,200,0,other);
-  lilyPad(700,700,150,0,other);
-  lilyPad(775,625,80,0,other);
-  lilyPad(300,300,100,0,other);
-  lilyPad(80,300,90,0,other);
-  lilyPad(200,825,190,0,other);
-  lilyPad(950,250,50,0,other);
-  lilyPad(700,350,100,0,other);
-  lilyPad(850,275,100,0,other);
-  lilyPad(650,150,60,0,other);
-  lilyPad(700,160,40,0,other);
+ 
+  lilyPad(500,800,300,0);
+  lilyPad(490,400,80,15);
+  lilyPad(950,675,200,0);
+  lilyPad(700,700,150,0);
+  lilyPad(775,625,80,0);
+  lilyPad(300,300,100,0);
+  lilyPad(80,300,90,0);
+  lilyPad(200,825,190,0);
+  lilyPad(950,250,50,0);
+  lilyPad(700,350,100,0);
+  lilyPad(850,275,100,0);
+  lilyPad(650,150,60,0);
+  lilyPad(700,160,40,0);
+
 
   lotus(350,150,25,vocal,stemBass);
   lotus(150,300,50,vocal,stemDrum);
-  lotus(900,250,40,vocal,stemDrum);
-  lotus(550,400,60,vocal,stemBass);
+  lotus(900,250,40,other,stemDrum);
+  lotus(550,400,60,other,stemBass);
 
-  lilyPad(500,800,300,0,other);
-  lilyPad(230,400,150,0,other);
-  lilyPad(125,920,500,30,other);
 
-  lotus(250,900,130,vocal,stemDrum);
+  lilyPad(230,400,150,0);
+
+
+  lotus(250,900,130,other,stemDrum);
   lotus(800,650,90,vocal,stemBass);
 
-  extra(125,920,500,180,other); //for the lilypad where a flower reflection overlaps 
-  
-  lotus(1000,1300,200,vocal,stemBass);
 
-  light();
-  
+  lilyPad(125,920,500,30);
+ 
+  push();
+  drawingContext.filter = 'blur(10px)';
+  lotus(1000,1300,200,other,stemBass);
+  pop();
+ 
+  //lotus(1000,1400,150,other,b);
+
+
+
+
 }
 
-function coolBackground(){
+
+function background1(){
   push();
   noStroke();
   let top = drawingContext.createLinearGradient(500,100,500,1000);
@@ -54,6 +72,7 @@ function coolBackground(){
   drawingContext.fillStyle = top;
   rect(0,0,2000,2000);
   pop();
+
 
   push();
   drawingContext.filter = 'blur(20px)';
@@ -65,11 +84,14 @@ function coolBackground(){
   ellipse(100,350,500,150);
   ellipse(100,350,500,150);
 
+
   fill(100,260,255,100); //light blue
   ellipse(900,450,900,150);
 
+
   fill(235,255,235,100); //white
   ellipse(-100,800,1300,200);
+
 
   stroke("white");
   strokeWeight(10);
@@ -79,11 +101,13 @@ function coolBackground(){
   line(600,570,-100,570);
   line(700,800,1100,800);
 
+
   fill(40,40,60); //darker blue
   noStroke();
   rect(0,0,2000,200);
   pop();
 }
+
 
 function lotus(x,y,pw,vocal,stem){
   //false means not reflection
@@ -91,27 +115,31 @@ function lotus(x,y,pw,vocal,stem){
   flower(x,y,pw,vocal,stem,false);
 }
 
+
+let ripple = 1;
 function flower(x,y,pw,vocal,stem,reflection){
   let angle = map(vocal,0,100,1,30); //middle petal angle
   let angle2 = map(vocal,10,100,10,30); //back petal angle
   let angle3 = map(vocal,0,100,20,60); //outer petal angle
   let ph = pw*3; //petal height proportional to width
-  let petH = map(vocal,0,100,pw*3,pw*2.5); //centre petal height
-  let bud = map(vocal,0,100,pw*1.5,pw*4); //bud y coord and size
+  let petH = map(vocal,0,100,pw*3,pw*2.5);
+  let bud = map(vocal,0,100,pw*1.5,pw*4);
   let s = stem*pw*0.015; //stem height
   let stemW = pw/4 //stem width
 
+
+ 
   push();
-  //blur depending on y position to create perspective 
-  if(y <= 500){ 
+  //blur depending on y position to create perspective
+  if(y <= 500){
     drawingContext.filter = 'blur(3px)'
   } else if (y <= 800){
     drawingContext.filter = 'blur(2px)'
-  } else if (y >= 1000){ 
-    drawingContext.filter = 'blur(10px)';
   }
 
+
   translate(x,y);
+
 
   let c = color(13,42,62,50); //shadow
   let c1 = color(0,130,0); //light green stem
@@ -125,7 +153,7 @@ function flower(x,y,pw,vocal,stem,reflection){
   let c9 = color(255,180,180); //outer petal light
   let c10 = color(175,60,70); //outer petal dark
 
-  //reflection colours
+
   if(reflection){
     rotate(180);
     drawingContext.filter = 'blur(8px)'
@@ -135,41 +163,64 @@ function flower(x,y,pw,vocal,stem,reflection){
     c4 = color(155,110,130); //back petal dark
     c5 = color(200,255,60,0); //bud inner
     c6 = color(200,255,0); //bud outer
-    c7 = color(135,90,110); //middle petal dark
+    c7 = color(155,110,130); //middle petal dark
     c8 = color(185,145,160); //middle petal light
     c9 = color(180,160,180); //outer petal light
     c10 = color(135,90,110); //outer petal dark
   }
+
+
+  /*
+  push();
+  drawingContext.filter = 'blur(2px)'
+  if (ripple <= pw*3){
+    noFill();
+    strokeWeight(pw/40);
+    stroke(220,220,250,255-ripple*0.5);
+    ellipse(0,0,ripple,ripple/5);
+    ellipse(0,0,ripple/2,ripple/10);
+    ripple += 1;
+  } else {
+    ripple = 1;
+  }
+  pop();
+  **/
+
 
   //shadow
   push();
   noStroke();
   drawingContext.filter = 'blur(20px)';
   fill(c); //dark blue
-  ellipse(0,0,pw*3.5,pw*0.75);
+  ellipse(0,0,pw*2,pw/3);
+  ellipse(0,0,pw*3.5,3*pw/4);
   pop();
+
 
   //stem
   stroke(0,70,0); //dark green
-  let stemColour = drawingContext.createLinearGradient(-s*0.25,0,0,-s*0.8);
+  let stemColour = drawingContext.createLinearGradient(-s/4,0,0,-4*s/5);
   stemColour.addColorStop(0,c1); //light green
   stemColour.addColorStop(1,c2); //dark green
   drawingContext.fillStyle = stemColour;
 
+
+
+
   beginShape();
   vertex(-stemW/2,0);
-  bezierVertex(-stemW/2,stemW/4,  stemW/2,stemW/4,  stemW/2,0);
-  bezierVertex(stemW/2,-s,  stemW/2,0,  stemW/2,-s);
-  bezierVertex(-stemW/2,-s, stemW/s,-s, -stemW/2,-s);
-  bezierVertex(-stemW/2,0,  -stemW/2,-s,  -stemW/2,0);
+  bezierVertex(-stemW/2,stemW/4,stemW/2,stemW/4,stemW/2,0);
+  bezierVertex(stemW/2,-s,stemW/2,0,stemW/2,-s);
+  bezierVertex(-stemW/2,-s,stemW/s,-s,-stemW/2,-s);
+  bezierVertex(-stemW/2,0,-stemW/2,-s,-stemW/2,0);
   endShape();
 
-  push();
-  translate(0,-s);
 
   //leaves
   push();
   let leaf = pw/2;
+  translate(0,-s);
+
 
   push();
   rotate(angle3);
@@ -180,6 +231,7 @@ function flower(x,y,pw,vocal,stem,reflection){
   endShape();
   pop();
 
+
   push();
   rotate(360-angle3);
   beginShape();
@@ -189,9 +241,14 @@ function flower(x,y,pw,vocal,stem,reflection){
   endShape();
   pop();
 
+
   pop();
 
+
   stroke(175,60,70); //petal lining
+
+
+
 
   //back petals
   let petalColour = drawingContext.createRadialGradient(0,0,250,0,0,100);
@@ -199,244 +256,157 @@ function flower(x,y,pw,vocal,stem,reflection){
   petalColour.addColorStop(1,c4); //inner
   drawingContext.fillStyle = petalColour;
 
+
   push();
+  translate(0,-s);
   rotate(angle2);
   beginShape();
-  vertex(0,-pw/10);
-  bezierVertex(-pw/5,-pw/10,   0,-pw/10,  -pw/5,-pw/10);
-  bezierVertex(-pw,-2*petH/5-pw/10,  -3*pw/5,-16*petH/25-pw/10,   0,-4*petH/5-pw/10);
-  bezierVertex(3*pw/5,-16*petH/25-pw/10,    pw,-2*petH/5-pw/10,    pw/5,-pw/10);
-  bezierVertex(0,-pw/10,   -pw/5,-pw/10,    0,-pw/10);
+  vertex(0,0-pw/10);
+  bezierVertex(-pw/5,0-pw/10  ,0,0-pw/10, -pw/5,0-pw/10);
+  bezierVertex(-pw,0.8*-petH/2-pw/10, -3*pw/5,0.8*-4*petH/5-pw/10 ,0,0.8*-petH-pw/10);
+  bezierVertex(3*pw/5,0.8*-4*petH/5-pw/10,  pw,0.8*-petH/2-pw/10,  pw/5,0-pw/10);
+  bezierVertex(0,0-pw/10, -pw/5,0-pw/10,  0,0-pw/10);
   endShape();
   pop();
+
 
   push();
+  translate(0,-s);
   rotate(360-angle2);
   beginShape();
-  vertex(0,-pw/10);
-  bezierVertex(-pw/5,-pw/10,   0,-pw/10,  -pw/5,-pw/10);
-  bezierVertex(-pw,-2*petH/5-pw/10,   -3*pw/5,-16*petH/25-pw/10,  0,-4*petH/5-pw/10);
-  bezierVertex(3*pw/5,-16*petH/25-pw/10,   pw,-2*petH/5-pw/10,    pw/5,-pw/10);
-  bezierVertex(0,-pw/10,  -pw/5,-pw/10,   0,-pw/10);
+  vertex(0,0-pw/10);
+  bezierVertex(-pw/5,0-pw/10  ,0,0-pw/10, -pw/5,0-pw/10);
+  bezierVertex(-pw,0.8*-petH/2-pw/10, -3*pw/5,0.8*-4*petH/5-pw/10 ,0,0.8*-petH-pw/10);
+  bezierVertex(3*pw/5,0.8*-4*petH/5-pw/10,  pw,0.8*-petH/2-pw/10,  pw/5,0-pw/10);
+  bezierVertex(0,0-pw/10, -pw/5,0-pw/10,  0,0-pw/10);
   endShape();
   pop();
 
+
+ 
   //bud
   push();
   drawingContext.filter = 'blur(6px)'
+  translate(0,-s);
   noStroke();
   let budG = drawingContext.createRadialGradient(0,-bud*1.25,bud*0.3, 0,-bud*1.25,bud*0.1);
   budG.addColorStop(0,c5); //outer
   budG.addColorStop(1,c6); //inner
   drawingContext.fillStyle = budG;
   circle(0,-bud*1.25,bud*0.7);
+
+
   pop();
+
+
+
 
   //inner outer petals
   push();
+  translate(0,-s);
+ 
   let petalColour2 = drawingContext.createLinearGradient(0,-45,0,-180);
   petalColour2.addColorStop(0,c7); //upper
   petalColour2.addColorStop(1,c8); //lower
   drawingContext.fillStyle = petalColour2;
-  
+ 
   push();
   rotate(angle2);
   beginShape();
   vertex(0,0);
-  bezierVertex(10*pw/9,-ph/3,   8*pw/5,-2*ph/3,   0,-ph);
-  bezierVertex(pw/5,-2*ph/3,    pw/5,-2*ph/3,   0,0);
+  bezierVertex(10*pw/9,-ph/3,8*pw/5,-2*ph/3,0,-ph);
+  bezierVertex(pw/5,-2*ph/3,pw/5,-2*ph/3,0,0);
   endShape();
   pop();
-  
+ 
   push();
   rotate(360-angle2);
   beginShape();
   vertex(0,0);
-  bezierVertex(-10*pw/9,-ph/3,    -8*pw/5,-2*ph/3,    0,-ph);
-  bezierVertex(-pw/5,-2*ph/3,   -pw/5,-2*ph/3,    0,0);
+  bezierVertex(-10*pw/9,-ph/3,-8*pw/5,-2*ph/3,0,-ph);
+  bezierVertex(-pw/5,-2*ph/3,-pw/5,-2*ph/3,0,0);
   endShape();
   pop();
   pop();
 
+
+
+
   //outer petals
+  push();
+  translate(0,-s);
+
+
   let petalColour3 = drawingContext.createRadialGradient(0,0,225,0,0,10);
   petalColour3.addColorStop(0,c9); //outer
   petalColour3.addColorStop(1,c10); //inner
   drawingContext.fillStyle = petalColour3;
 
+
   push();
   rotate(angle3);
   beginShape();
   vertex(0,0);
-  bezierVertex(10*pw/9,-ph/3,   8*pw/5,-2*ph/3,   0,-ph);
-  bezierVertex(pw/5,-2*ph/3,    pw/5,-2*ph/3,   0,0);
+  bezierVertex(10*pw/9,-ph/3,8*pw/5,-2*ph/3,0,-ph);
+  bezierVertex(pw/5,-2*ph/3,pw/5,-2*ph/3,0,0);
   endShape();
   pop();
+
 
   push();
   rotate(360-angle3);
   beginShape();
   vertex(0,0);
-  bezierVertex(-10*pw/9,-ph/3,    -8*pw/5,-2*ph/3,    0,-ph);
-  bezierVertex(-pw/5,-2*ph/3,   -pw/5,-2*ph/3,    0,0);
+  bezierVertex(-10*pw/9,-ph/3,-8*pw/5,-2*ph/3,0,-ph);
+  bezierVertex(-pw/5,-2*ph/3,-pw/5,-2*ph/3,0,0);
   endShape();
   pop();
+
 
   //front petal
   beginShape();
   vertex(0,0);
-  bezierVertex(-pw/5,0,   0,0,    -pw/5,0);
-  bezierVertex(-pw,-petH/2,   -3*pw/5,-4*petH/5,    0,-petH);
-  bezierVertex(3*pw/5,-4*petH/5,    pw,-petH/2,   pw/5,0);
-  bezierVertex(0,0,   -pw/5,0,    0,0);
+  bezierVertex(-pw/5,0,0,0,-pw/5,0);
+  bezierVertex(-pw,-petH/2,-3*pw/5,-4*petH/5,0,-petH);
+  bezierVertex(3*pw/5,-4*petH/5,pw,-petH/2,pw/5,0);
+  bezierVertex(0,0,-pw/5,0,0,0);
   endShape();
 
+
   pop();
+
 
   pop();
 }
 
-let r = 1;
-function lilyPad(x,y,w,s,drum){
-  push();
 
+function lilyPad(x,y,w,s){
+  push();
+  push();
   //blur depending on y position to create perspective
   if(y <= 500){
     drawingContext.filter = 'blur(2px)'
   } else if (y <= 800){
     drawingContext.filter = 'blur(1px)'
   }
+  fill(0,130,0);
 
-  let h = map(y,1000,0,w/4,w/10) //lily height
-  let bounce = map(drum,0,100,0,30); //bounce y coord
 
-  //ripples
-  if(r <= w*2){
-    push();
-    noFill();
-    stroke(255,255,255,175-r*3);
-    strokeWeight(w/100);
-    ellipse(x,y,w+r,h+r/10);
-    pop();
-    r += 1;
-  } else {
-    r = 10;
-  }
-
-  //gradient
   let lily = drawingContext.createLinearGradient(0,200,0,1000);
   lily.addColorStop(0,color(0,50,0)); //dark green
   lily.addColorStop(1,color(0,120,0)); //light green
   drawingContext.fillStyle = lily;
 
-  if(s == 0){ //if no angle draw ellipse
-    push(); //shadow
-    noStroke();
-    fill(50,80,100,100);
-    ellipse(x,y+1,w,h);
-    pop();
-    ellipse(x,y-bounce*y/700,w,h); //whole pad
+
+  h = map(y,1000,0,w/4,w/10) //lily height
+
+
+  if(s == 0){
+    ellipse(x,y,w,h);
   }
 
-  push(); //shadow
-  noStroke();
-  fill(50,80,100,100);
-  arc(x,y+1,w,h,0,-s);
+
+  arc(x,y,w,h,0,-s);
   pop();
-  arc(x,y-bounce*y/700,w,h,0,-s); //segmented pad
-
-  //lines
-  push();
-  strokeWeight(1);
-  stroke(50,150,50);
-  line(x,y-bounce*y/700,x-w/4,y-bounce*y/700+h/3);
-  line(x,y-bounce*y/700,x+w/3,y-bounce*y/700+h/5);
-  line(x,y-bounce*y/700,x-w/4,y-bounce*y/700-h/3);
-  line(x,y-bounce*y/700,x-w/2.5,y-bounce*y/700-h/10);
-  line(x,y-bounce*y/700,x+w/6,y-bounce*y/700-h/2);
-  line(x,y-bounce*y/700,x+w/10,y-bounce*y/700+h/3);
-  pop();
-
-  pop();
-  
-}
-
-function extra(x,y,w,s,drum){
-  push();
-
-  fill(0,100,0);
-  noStroke();
-  let h = map(y,1000,0,w/4,w/10) //lily height
-  let bounce = map(drum,0,100,0,30);
-
-  arc(x,y-bounce*y/700,w,h,0,-300); //segmented pad
-
-  //lines
-  push();
-  strokeWeight(1);
-  stroke(50,150,50,150);
-  line(x,y-bounce*y/700,x+w/3,y-bounce*y/700+h/5);
-  line(x,y-bounce*y/700,x+w/10,y-bounce*y/700+h/3);
-  pop();
-  pop();
-  
-}
-
-let c = 0;
-function light() {
-  push();
-  drawingContext.filter = 'blur(5px)';
-  noStroke();
-  c += 0.25
-  if (c >= 200){
-    c = 200;
-  }
-  
-  let beam = drawingContext.createLinearGradient(0,0,700,700);
-  beam.addColorStop(0,color(255,255,200,c)); //light yellow
-  beam.addColorStop(1,color(255,255,255,0)); //light white
-  drawingContext.fillStyle = beam;
-
-  //beams
-  beginShape();
-  vertex(70,0);
-  vertex(0,0);
-  vertex(0,80);
-  vertex(600,800);
-  vertex(900,600);
-  endShape();
-
-  beginShape();
-  vertex(150,0);
-  vertex(120,0);
-  vertex(1000,400);
-  vertex(1000,300);
-  endShape();
-
-  beginShape();
-  vertex(50,0);
-  vertex(30,0);
-  vertex(1000,800);
-  vertex(1000,700);
-  endShape();
-
-  beginShape();
-  vertex(0,200);
-  vertex(0,350);
-  vertex(400,1000);
-  vertex(500,1000);
-  endShape();
-
-  beginShape();
-  vertex(250,0);
-  vertex(350,0);
-  vertex(1000,100);
-  vertex(1000,200);
-  endShape();
-
-  //covering rectangle
-  fill(255,255,200,c/10);
-  rect(0,0,2000,2000);
-
-  pop();
+ 
 }
