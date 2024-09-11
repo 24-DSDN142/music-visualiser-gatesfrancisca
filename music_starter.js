@@ -3,16 +3,14 @@
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   rectMode(CENTER)
 
-
   coolBackground();
  
-  let stemDrum = map(drum,0,100,15,200); //stem height dictated by drums
-  let stemBass = map(bass,0,100,10,100); //stem height dicatted by bass
-
+  let stemDrum = map(drum,0,100,15,200); //stem height affected by drums
+  let stemBass = map(bass,0,100,10,100); //stem height affected by bass
 
   //lotus(x coord,  y coord,  petal Width,  effects petals, effects stem)
   //lilyPad(x coord, y coord, lily width, slit size);
- 
+
   lilyPad(490,400,80,15,other);
   lilyPad(950,675,200,0,other);
   lilyPad(700,700,150,0,other);
@@ -26,43 +24,39 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   lilyPad(650,150,60,0,other);
   lilyPad(700,160,40,0,other);
 
-
   lotus(350,150,25,vocal,stemBass);
   lotus(150,300,50,vocal,stemDrum);
   lotus(900,250,40,vocal,stemDrum);
   lotus(550,400,60,vocal,stemBass);
 
-
   lilyPad(500,800,300,0,other);
   lilyPad(230,400,150,0,other);
   lilyPad(125,920,500,30,other);
 
-
   lotus(250,900,130,vocal,stemDrum);
   lotus(800,650,90,vocal,stemBass);
 
-
   extra(125,920,500,180,other); //for the lilypad where a flower reflection overlaps
  
-  lotus(1000,1300,200,vocal,stemBass);
+  lotus(1000,1300,200,vocal,stemBass); //big blurry lotus
 
-
-  light();
+  light(); //light beams
  
 }
 
-
 function coolBackground(){
+  //base colour
   push();
   noStroke();
+  //gradient
   let top = drawingContext.createLinearGradient(500,100,500,1000);
   top.addColorStop(0,color(30,50,75)); //top
   top.addColorStop(1,color(170,270,250)); //bottom
   drawingContext.fillStyle = top;
-  rect(0,0,2000,2000);
+  rect(0,0,2000,2000); //actual shape
   pop();
 
-
+  //blurred shapes
   push();
   drawingContext.filter = 'blur(20px)';
   noStroke();
@@ -72,15 +66,10 @@ function coolBackground(){
   ellipse(650,1000,600,150);
   ellipse(100,350,500,150);
   ellipse(100,350,500,150);
-
-
   fill(100,260,255,100); //light blue
   ellipse(900,450,900,150);
-
-
-  fill(235,255,235,100); //white
+  fill(235,255,235,100); //white-ish
   ellipse(-100,800,1300,200);
-
 
   stroke("white");
   strokeWeight(10);
@@ -90,7 +79,6 @@ function coolBackground(){
   line(600,570,-100,570);
   line(700,800,1100,800);
 
-
   fill(40,40,60); //darker blue
   noStroke();
   rect(0,0,2000,200);
@@ -99,11 +87,9 @@ function coolBackground(){
 
 
 function lotus(x,y,pw,vocal,stem){
-  //false means not reflection
-  flower(x,y,pw,vocal,stem,true);
-  flower(x,y,pw,vocal,stem,false);
+  flower(x,y,pw,vocal,stem,true); //true = reflection
+  flower(x,y,pw,vocal,stem,false); //false = flower
 }
-
 
 function flower(x,y,pw,vocal,stem,reflection){
   let angle = map(vocal,0,100,1,30); //middle petal angle
@@ -115,7 +101,6 @@ function flower(x,y,pw,vocal,stem,reflection){
   let s = stem*pw*0.015; //stem height
   let stemW = pw/4 //stem width
 
-
   push();
   //blur depending on y position to create perspective
   if(y <= 500){
@@ -126,9 +111,7 @@ function flower(x,y,pw,vocal,stem,reflection){
     drawingContext.filter = 'blur(10px)';
   }
 
-
   translate(x,y);
-
 
   let c = color(13,42,62,50); //shadow
   let c1 = color(0,130,0); //light green stem
@@ -141,7 +124,6 @@ function flower(x,y,pw,vocal,stem,reflection){
   let c8 = color(250,150,150); //middle petal light
   let c9 = color(255,180,180); //outer petal light
   let c10 = color(175,60,70); //outer petal dark
-
 
   //reflection colours
   if(reflection){
@@ -159,7 +141,6 @@ function flower(x,y,pw,vocal,stem,reflection){
     c10 = color(135,90,110); //outer petal dark
   }
 
-
   //shadow
   push();
   noStroke();
@@ -168,15 +149,15 @@ function flower(x,y,pw,vocal,stem,reflection){
   ellipse(0,0,pw*3.5,pw*0.75);
   pop();
 
-
   //stem
-  stroke(0,70,0); //dark green
+  stroke(0,70,0); //dark green 
+  //gradient
   let stemColour = drawingContext.createLinearGradient(-s*0.25,0,0,-s*0.8);
   stemColour.addColorStop(0,c1); //light green
   stemColour.addColorStop(1,c2); //dark green
   drawingContext.fillStyle = stemColour;
 
-
+  //stem shape
   beginShape();
   vertex(-stemW/2,0);
   bezierVertex(-stemW/2,stemW/4,  stemW/2,stemW/4,  stemW/2,0);
@@ -185,16 +166,14 @@ function flower(x,y,pw,vocal,stem,reflection){
   bezierVertex(-stemW/2,0,  -stemW/2,-s,  -stemW/2,0);
   endShape();
 
-
   push();
   translate(0,-s);
-
 
   //leaves
   push();
   let leaf = pw/2;
 
-
+  //left leaf
   push();
   rotate(angle3);
   beginShape();
@@ -204,7 +183,7 @@ function flower(x,y,pw,vocal,stem,reflection){
   endShape();
   pop();
 
-
+  //right leaf
   push();
   rotate(360-angle3);
   beginShape();
@@ -214,20 +193,18 @@ function flower(x,y,pw,vocal,stem,reflection){
   endShape();
   pop();
 
-
   pop();
-
 
   stroke(175,60,70); //petal lining
 
-
   //back petals
+  //gradient
   let petalColour = drawingContext.createRadialGradient(0,0,250,0,0,100);
   petalColour.addColorStop(0,c3); //outer
   petalColour.addColorStop(1,c4); //inner
   drawingContext.fillStyle = petalColour;
 
-
+  //right back petal
   push();
   rotate(angle2);
   beginShape();
@@ -239,7 +216,7 @@ function flower(x,y,pw,vocal,stem,reflection){
   endShape();
   pop();
 
-
+  //left back petal
   push();
   rotate(360-angle2);
   beginShape();
@@ -251,26 +228,27 @@ function flower(x,y,pw,vocal,stem,reflection){
   endShape();
   pop();
 
-
   //bud
   push();
   drawingContext.filter = 'blur(6px)'
   noStroke();
+  //gradient
   let budG = drawingContext.createRadialGradient(0,-bud*1.25,bud*0.3, 0,-bud*1.25,bud*0.1);
   budG.addColorStop(0,c5); //outer
   budG.addColorStop(1,c6); //inner
   drawingContext.fillStyle = budG;
-  circle(0,-bud*1.25,bud*0.7);
+  circle(0,-bud*1.25,bud*0.7); //actual bud shape
   pop();
 
-
-  //inner outer petals
+  //middle petals
   push();
+  //gradient
   let petalColour2 = drawingContext.createLinearGradient(0,-45,0,-180);
   petalColour2.addColorStop(0,c7); //upper
   petalColour2.addColorStop(1,c8); //lower
   drawingContext.fillStyle = petalColour2;
  
+  //right middle petal
   push();
   rotate(angle2);
   beginShape();
@@ -280,6 +258,7 @@ function flower(x,y,pw,vocal,stem,reflection){
   endShape();
   pop();
  
+  //left middle petal
   push();
   rotate(360-angle2);
   beginShape();
@@ -290,14 +269,13 @@ function flower(x,y,pw,vocal,stem,reflection){
   pop();
   pop();
 
-
   //outer petals
   let petalColour3 = drawingContext.createRadialGradient(0,0,225,0,0,10);
   petalColour3.addColorStop(0,c9); //outer
   petalColour3.addColorStop(1,c10); //inner
   drawingContext.fillStyle = petalColour3;
 
-
+  //right outer petal
   push();
   rotate(angle3);
   beginShape();
@@ -307,7 +285,7 @@ function flower(x,y,pw,vocal,stem,reflection){
   endShape();
   pop();
 
-
+  //left outer petal
   push();
   rotate(360-angle3);
   beginShape();
@@ -316,7 +294,6 @@ function flower(x,y,pw,vocal,stem,reflection){
   bezierVertex(-pw/5,-2*ph/3,   -pw/5,-2*ph/3,    0,0);
   endShape();
   pop();
-
 
   //front petal
   beginShape();
@@ -327,19 +304,14 @@ function flower(x,y,pw,vocal,stem,reflection){
   bezierVertex(0,0,   -pw/5,0,    0,0);
   endShape();
 
-
   pop();
-
 
   pop();
 }
 
-
-let r = 1;
+let r = 1; //ripple radius
 function lilyPad(x,y,w,s,drum){
   push();
-
-
   //blur depending on y position to create perspective
   if(y <= 500){
     drawingContext.filter = 'blur(2px)'
@@ -347,24 +319,21 @@ function lilyPad(x,y,w,s,drum){
     drawingContext.filter = 'blur(1px)'
   }
 
-
   let h = map(y,1000,0,w/4,w/10) //lily height
   let bounce = map(drum,0,100,0,30); //bounce y coord
-
 
   //ripples
   if(r <= w*2){
     push();
     noFill();
-    stroke(255,255,255,175-r*3);
-    strokeWeight(w/100);
+    stroke(255,255,255,175-r*3); //reducing transparency as ripple expands
+    strokeWeight(w/100); //ripple stroke prortional to flower size
     ellipse(x,y,w+r,h+r/10);
     pop();
-    r += 1;
+    r += 1; //expanding
   } else {
-    r = 10;
+    r = 10; //reset to start again
   }
-
 
   //gradient
   let lily = drawingContext.createLinearGradient(0,200,0,1000);
@@ -372,29 +341,27 @@ function lilyPad(x,y,w,s,drum){
   lily.addColorStop(1,color(0,120,0)); //light green
   drawingContext.fillStyle = lily;
 
-
   if(s == 0){ //if no angle draw ellipse
     push(); //shadow
     noStroke();
-    fill(50,80,100,100);
+    fill(50,80,100,100); //shadow grey
     ellipse(x,y+1,w,h);
     pop();
     ellipse(x,y-bounce*y/700,w,h); //whole pad
   }
 
-
   push(); //shadow
   noStroke();
-  fill(50,80,100,100);
+  fill(50,80,100,100); //shadow grey
   arc(x,y+1,w,h,0,-s);
   pop();
+
   arc(x,y-bounce*y/700,w,h,0,-s); //segmented pad
 
-
-  //lines
+  //lilypad lines
   push();
   strokeWeight(1);
-  stroke(50,150,50);
+  stroke(50,150,50); //light green
   line(x,y-bounce*y/700,x-w/4,y-bounce*y/700+h/3);
   line(x,y-bounce*y/700,x+w/3,y-bounce*y/700+h/5);
   line(x,y-bounce*y/700,x-w/4,y-bounce*y/700-h/3);
@@ -403,29 +370,23 @@ function lilyPad(x,y,w,s,drum){
   line(x,y-bounce*y/700,x+w/10,y-bounce*y/700+h/3);
   pop();
 
-
   pop();
- 
 }
-
 
 function extra(x,y,w,s,drum){
   push();
 
-
-  fill(0,100,0);
+  fill(0,100,0); //green
   noStroke();
   let h = map(y,1000,0,w/4,w/10) //lily height
-  let bounce = map(drum,0,100,0,30);
-
+  let bounce = map(drum,0,100,0,30); //bounce y coord
 
   arc(x,y-bounce*y/700,w,h,0,-300); //segmented pad
 
-
-  //lines
+  //lilypad lines
   push();
-  strokeWeight(1);
-  stroke(50,150,50,150);
+  strokeWeight(w/100);
+  stroke(50,150,50,150); //light green
   line(x,y-bounce*y/700,x+w/3,y-bounce*y/700+h/5);
   line(x,y-bounce*y/700,x+w/10,y-bounce*y/700+h/3);
   pop();
@@ -433,24 +394,25 @@ function extra(x,y,w,s,drum){
  
 }
 
-
-let c = 0;
+let c = 0; //light transparency
 function light() {
   push();
   drawingContext.filter = 'blur(5px)';
   noStroke();
   c += 0.25
   if (c >= 200){
-    c = 200;
+    c = 200; //transparncy doesn't go beyond 200
   }
  
+  //gradient
   let beam = drawingContext.createLinearGradient(0,0,700,700);
   beam.addColorStop(0,color(255,255,200,c)); //light yellow
   beam.addColorStop(1,color(255,255,255,0)); //light white
   drawingContext.fillStyle = beam;
 
-
   //beams
+  
+  //main big beam
   beginShape();
   vertex(70,0);
   vertex(0,0);
@@ -459,7 +421,7 @@ function light() {
   vertex(900,600);
   endShape();
 
-
+  //second outer top beam
   beginShape();
   vertex(150,0);
   vertex(120,0);
@@ -467,7 +429,7 @@ function light() {
   vertex(1000,300);
   endShape();
 
-
+  //mini inner beam
   beginShape();
   vertex(50,0);
   vertex(30,0);
@@ -475,7 +437,7 @@ function light() {
   vertex(1000,700);
   endShape();
 
-
+  //bottom left beam
   beginShape();
   vertex(0,200);
   vertex(0,350);
@@ -483,7 +445,7 @@ function light() {
   vertex(500,1000);
   endShape();
 
-
+  //top outer beam
   beginShape();
   vertex(250,0);
   vertex(350,0);
@@ -491,11 +453,9 @@ function light() {
   vertex(1000,200);
   endShape();
 
-
   //covering rectangle
   fill(255,255,200,c/10);
   rect(0,0,2000,2000);
-
 
   pop();
 }
